@@ -1,2 +1,2 @@
-# Bera-send sender-bulk-address
+# Bera sender-bulk-address
 
