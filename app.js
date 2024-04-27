@@ -49,6 +49,12 @@ sendButton.addEventListener('click', async () => {
 async function sendTransactions(privateKey, toAddresses) {
   const web3 = new Web3(new Web3.providers.HttpProvider('https://artio.rpc.berachain.com'));
   const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+
+  // 检查账户地址是否有效
+  if (!web3.utils.isAddress(account.address)) {
+    throw new Error(`Invalid account address: ${account.address}`);
+  }
+
   const balance = await web3.eth.getBalance(account.address);
 
   let gasPrice = await web3.eth.getGasPrice();
