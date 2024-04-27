@@ -57,7 +57,7 @@ async function sendTransactions(privateKey, toAddresses) {
 
   for (const toAddress of toAddresses) {
     try {
-      const receipt = await sendSingleTransaction(web3, account, toAddress, web3.utils.toWei('0.3', 'BERA'), gasPrice, balance);
+      const receipt = await sendSingleTransaction(web3, account, toAddress, '0.3', gasPrice, balance);
       transactions.push({
         transactionHash: receipt.transactionHash,
         from: account.address,
@@ -77,7 +77,7 @@ async function sendSingleTransaction(web3, account, toAddress, value, gasPrice, 
   const transaction = {
     from: account.address,
     to: toAddress,
-    value: web3.utils.toHex(value),
+    value: web3.utils.toWei(value, 'ether'), // 使用 'ether' 单位将值从 Ether 转换为 Wei
     gas: await web3.eth.estimateGas(transaction),
     gasPrice: gasPrice
   };
