@@ -99,17 +99,12 @@ async function sendSingleTransaction(web3, account, toAddress, value, gasPrice, 
 
 async function getOptimalGasPrice(initialGasPrice) {
   const web3 = new Web3(new Web3.providers.HttpProvider('https://artio.rpc.berachain.com'));
-  const gasStats = await web3.eth.getGasStats();
+  const gasPrice = await web3.eth.getGasPrice();
 
-  const lowGasPrice = gasStats.safeLowGasPrice;
-  const highGasPrice = gasStats.highGasPrice;
-
-  // 设置gasPrice在lowGasPrice和highGasPrice之间
-  const optimalGasPrice = web3.utils.toBN(initialGasPrice).gt(web3.utils.toBN(lowGasPrice))
-    ? web3.utils.toBN(initialGasPrice).lt(web3.utils.toBN(highGasPrice))
-      ? initialGasPrice
-      : highGasPrice
-    : lowGasPrice;
+  // 设置gasPrice为initialGasPrice与获取到的gasPrice的最大值
+  const optimalGasPrice = web3.utils.toBN(initialGasPrice).gt(web3.utils.toBN(gasPrice))
+    ? initialGasPrice
+    : gasPrice;
 
   return optimalGasPrice;
 }
