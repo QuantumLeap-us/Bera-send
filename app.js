@@ -88,8 +88,10 @@ async function sendSingleTransaction(web3, account, toAddress, value, gasPrice, 
 
   transaction.gasPrice = gasPrice;
 
+  // 检查 balance 是否为有效值
+  const accountBalance = balance ? web3.utils.toBN(balance) : web3.utils.toBN(0);
+
   const totalGasCost = web3.utils.toBN(transaction.gas).mul(gasPrice);
-  const accountBalance = web3.utils.toBN(balance);
 
   if (totalGasCost.gt(accountBalance)) {
     throw new Error('Insufficient balance to pay gas');
