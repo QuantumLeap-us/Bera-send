@@ -76,17 +76,19 @@ async function sendTransactions(privateKey, toAddresses) {
 async function sendSingleTransaction(web3, account, toAddress, value, gasPrice, balance) {
   const transaction = {
     from: account.address,
-    to: toAddress, // 先设置 to 地址
+    to: toAddress,
     value: web3.utils.toWei(value, 'ether')
   };
 
   // 获取估计的 gas Limit
   const gasLimit = await web3.eth.estimateGas(transaction);
 
-  transaction.gas = gasLimit; // 将估计的 gas Limit 设置到 transaction 对象
+  // 将 gasLimit 转换为十六进制字符串
+  transaction.gas = web3.utils.toHex(gasLimit);
+
   transaction.gasPrice = gasPrice;
 
-  const totalGasCost = gasLimit.mul(gasPrice);
+  const totalGasCost = web3.utils.toBN(transaction.gas).mul(gasPrice);
   const accountBalance = web3.utils.toBN(balance);
 
   if (totalGasCost.gt(accountBalance)) {
