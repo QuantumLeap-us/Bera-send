@@ -58,7 +58,7 @@ async function sendTransactions(privateKey, toAddresses) {
 
   for (const toAddress of toAddresses) {
     try {
-      const receipt = await sendSingleTransaction(web3, account, toAddress, web3.utils.toWei('0.5', 'BERA'), gasPrice, balance);
+      const receipt = await sendSingleTransaction(web3, account, toAddress, web3.utils.toWei('0.3', 'BERA'), gasPrice, balance);
       transactions.push({
         transactionHash: receipt.transactionHash,
         from: account.address,
