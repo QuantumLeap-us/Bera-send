@@ -52,7 +52,6 @@ async function sendTransactions(privateKey, toAddresses) {
   const balance = await web3.eth.getBalance(account.address);
 
   let gasPrice = await web3.eth.getGasPrice();
-  gasPrice = await getOptimalGasPrice(gasPrice); // 获取优化后的gasPrice
 
   const transactions = [];
 
@@ -95,18 +94,6 @@ async function sendSingleTransaction(web3, account, toAddress, value, gasPrice, 
   const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
   console.log('Transaction successful:', receipt.transactionHash);
   return receipt;
-}
-
-async function getOptimalGasPrice(initialGasPrice) {
-  const web3 = new Web3(new Web3.providers.HttpProvider('https://artio.rpc.berachain.com'));
-  const gasPrice = await web3.eth.getGasPrice();
-
-  // 设置gasPrice为initialGasPrice与获取到的gasPrice的最大值
-  const optimalGasPrice = web3.utils.toBN(initialGasPrice).gt(web3.utils.toBN(gasPrice))
-    ? initialGasPrice
-    : gasPrice;
-
-  return optimalGasPrice;
 }
 
 async function trackTransaction(transactionHash, from, to, value) {
