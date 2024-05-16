@@ -44,7 +44,7 @@ async function sendTransactions(privateKey, toAddresses) {
 
   for (const toAddress of toAddresses) {
     try {
-      const receipt = await sendSingleTransaction(web3, account, toAddress, '0.3', gasPrice, accountBalance);
+      const receipt = await sendSingleTransaction(web3, account, toAddress, '1', gasPrice, accountBalance);
       outputDiv.innerHTML += `Transaction sent from ${account.address} to ${toAddress} with hash: <a href="https://artio.beratrail.io/tx/${receipt.transactionHash}" rel="noopener" target="_blank">${receipt.transactionHash}</a><br>`;
     } catch (error) {
       outputDiv.textContent += `Error sending transaction to ${toAddress}: ${error.message}\n`;
